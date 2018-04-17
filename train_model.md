@@ -70,3 +70,68 @@ python2 tools/infer_simple.py \
     test
 ```
 
+[Detectron](https://github.com/facebookresearch/Detectron/tree/80f329530843e66d07ca39e19901d5f3e5daf009)/[lib](https://github.com/facebookresearch/Detectron/tree/80f329530843e66d07ca39e19901d5f3e5daf009/lib)/[utils](https://github.com/facebookresearch/Detectron/tree/80f329530843e66d07ca39e19901d5f3e5daf009/lib/utils)/**vis.py**
+
+在vis.py中可以修改bbox的颜色
+
+```
+_GRAY = (218, 227, 218)
+_GREEN = (18, 127, 15)
+//_Read=(220,20,60)修改为红色：220,20,60
+_WHITE = (255, 255, 255)
+```
+
+```
+def vis_class(img, pos, class_str, font_scale=0.35):
+    """Visualizes the class."""
+    x0, y0 = int(pos[0]), int(pos[1])
+    # Compute text size.
+    txt = class_str
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    ((txt_w, txt_h), _) = cv2.getTextSize(txt, font, font_scale, 1)
+    # Place text background.
+    back_tl = x0, y0 - int(1.3 * txt_h)
+    back_br = x0 + txt_w, y0
+    cv2.rectangle(img, back_tl, back_br, _GREEN, -1)
+    # Show text.
+    txt_tl = x0, y0 - int(0.3 * txt_h)
+    cv2.putText(img, txt, txt_tl, font, font_scale, _GRAY, lineType=cv2.LINE_AA)
+    return img
+
+
+def vis_bbox(img, bbox, thick=1):
+    """Visualizes a bounding box."""
+    (x0, y0, w, h) = bbox
+    x1, y1 = int(x0 + w), int(y0 + h)
+    x0, y0 = int(x0), int(y0)
+    cv2.rectangle(img, (x0, y0), (x1, y1), _GREEN, thickness=thick)
+    return img
+```
+
+修改输出类型：
+
+```
+vis_utils.vis_one_image(
+            im[:, :, ::-1],  # BGR -> RGB for visualization
+            im_name,
+            args.output_dir,
+            cls_boxes,
+            cls_segms,
+            cls_keyps,
+            dataset=dummy_coco_dataset,
+            box_alpha=0.3,
+            show_class=True,
+            thresh=0.7,
+            kp_thresh=2,
+         // ext='png'
+        )
+```
+
+在infer_simple.py中的vis_utils.vis_one_image添加：
+
+ext=“png”或者“jpg”
+
+
+
+
+
