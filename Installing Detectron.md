@@ -158,3 +158,17 @@ cd  $detectron/lib && make
 python2 $DETECTRON/tests/test_spatial_narrow_as_op.py
 ```
 
+# 服务器安装caffe2:失败
+
+1.conda install -y --channel https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge  protobuf=3.5.1
+
+2.scripts中的diagnose_protobuf.py可以用来判断是否装好了protobuf.
+
+summary:
+
+![52636930389](C:\Users\ADMINI~1\AppData\Local\Temp\1526369303896.png)
+
+![52636932147](C:\Users\ADMINI~1\AppData\Local\Temp\1526369321478.png)
+
+![52636933028](C:\Users\ADMINI~1\AppData\Local\Temp\1526369330283.png)
+

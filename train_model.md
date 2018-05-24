@@ -41,6 +41,39 @@ ln -s /path/to/coco $DETECTRON/lib/datasets/data/coco
        --cfg configs/cars/cars_retinanet_R-50-FPN_1x.yaml \
        OUTPUT_DIR /tmp/detectron-output
    ```
+   ```
+   SOLVER:
+     WEIGHT_DECAY: 0.0001
+     LR_POLICY: steps_with_decay
+     BASE_LR: 0.01
+     GAMMA: 0.1
+     MAX_ITER: 90000
+     STEPS: [0, 60000, 80000]
+   ```
+
+
+```
+线性规则，实验分析有数据
+Equivalent schedules with...
+  # 1 GPU:
+  #   BASE_LR: 0.0025
+  #   MAX_ITER: 60000
+  #   STEPS: [0, 30000, 40000]
+  # 2 GPUs:
+  #   BASE_LR: 0.005
+  #   MAX_ITER: 30000
+  #   STEPS: [0, 15000, 20000]
+  # 4 GPUs:
+  #   BASE_LR: 0.01
+  #   MAX_ITER: 15000
+  #   STEPS: [0, 7500, 10000]
+  # 8 GPUs:
+  #   BASE_LR: 0.02
+  #   MAX_ITER: 7500
+  #   STEPS: [0, 3750, 5000]
+```
+
+
 
 ## 3.测试自己的模型
 
@@ -48,7 +81,7 @@ ln -s /path/to/coco $DETECTRON/lib/datasets/data/coco
 python2 tools/infer_simple.py \
     --cfg configs/12_2017_baselines/e2e_mask_rcnn_R-101-FPN_2x.yaml \
     --output-dir /tmp/detectron-visualizations \
-    --image-ext jpg \
+    --image-ext png \
     --wts https://s3-us-west-2.amazonaws.com/detectron/35861858/12_2017_baselines/e2e_mask_rcnn_R-101-FPN_2x.yaml.02_32_51.SgT4y1cO/output/train/coco_2014_train:coco_2014_valminusminival/generalized_rcnn/model_final.pkl \
     demo
 ```
@@ -62,6 +95,15 @@ python2 tools/infer_simple.py \
 demo :可以改为test
 
 ```
+python2 tools/test_net.py \
+    --cfg configs/12_2017_baselines/e2e_mask_rcnn_R-101-FPN_2x.yaml \
+    TEST.WEIGHTS https://s3-us-west-2.amazonaws.com/detectron/35861858/12_2017_baselines/e2e_mask_rcnn_R-101-FPN_2x.yaml.02_32_51.SgT4y1cO/output/train/coco_2014_train:coco_2014_valminusminival/generalized_rcnn/model_final.pkl \
+    NUM_GPUS 1
+```
+
+
+
+```
 python2 tools/infer_simple.py \
     --cfg configs/cars/cars_retinanet_R-50-FPN_1x.yaml \
     --output-dir /tmp/detectron-visualizations \
@@ -69,6 +111,18 @@ python2 tools/infer_simple.py \
     --wts /tmp/detectron-output/.pkl \
     test
 ```
+
+```
+python2 tools/infer2_simple.py \
+    --cfg configs/12_2017_baselines/retinanet_R-50-FPN_1x.yaml \
+    --output-dir /tmp/detectron-visualizations \
+    --image-ext png \
+    --wts https://s3-us-west-2.amazonaws.com/detectron/36768636/12_2017_baselines/retinanet_R-50-FPN_1x.yaml.08_29_48.t4zc9clc/output/train/coco_2014_train:coco_2014_valminusminival/retinanet/model_final.pkl \
+    cars
+    
+```
+
+# 4.修改bbox和输出类型
 
 [Detectron](https://github.com/facebookresearch/Detectron/tree/80f329530843e66d07ca39e19901d5f3e5daf009)/[lib](https://github.com/facebookresearch/Detectron/tree/80f329530843e66d07ca39e19901d5f3e5daf009/lib)/[utils](https://github.com/facebookresearch/Detectron/tree/80f329530843e66d07ca39e19901d5f3e5daf009/lib/utils)/**vis.py**
 
@@ -99,7 +153,7 @@ def vis_class(img, pos, class_str, font_scale=0.35):
     return img
 
 
-def vis_bbox(img, bbox, thick=1):
+def vis_bbox(img, bbox, thick=1)://thick=2，增加宽度，便于观察
     """Visualizes a bounding box."""
     (x0, y0, w, h) = bbox
     x1, y1 = int(x0 + w), int(y0 + h)
@@ -123,7 +177,7 @@ vis_utils.vis_one_image(
             show_class=True,
             thresh=0.7,
             kp_thresh=2,
-         // ext='png'
+         // ext="png"
         )
 ```
 
@@ -131,7 +185,14 @@ vis_utils.vis_one_image(
 
 ext=“png”或者“jpg”
 
+5.配置
 
+测试model:
 
-
+```
+python2 tools/test_net.py \
+    --cfg configs/12_2017_baselines/e2e_mask_rcnn_R-101-FPN_2x.yaml \
+    TEST.WEIGHTS https://s3-us-west-2.amazonaws.com/detectron/35861858/12_2017_baselines/e2e_mask_rcnn_R-101-FPN_2x.yaml.02_32_51.SgT4y1cO/output/train/coco_2014_train:coco_2014_valminusminival/generalized_rcnn/model_final.pkl \
+    NUM_GPUS 1
+```
 
