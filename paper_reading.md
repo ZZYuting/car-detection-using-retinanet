@@ -22,6 +22,10 @@ RCNN使用SS算法提取region proposal，将提取出的2000个左右proposal �
 
 4. Classification。利用proposal feature maps计算proposal的类别，同时再次bounding box regression获得检测框最终的精确位置。
 
+5. **faster算法采用一个全卷积网络用作为region proposal网络，用该网络在feature map上滑动，并在每个位置引入多尺度多长宽比的anchor窗口来捕捉未知尺寸和ratio rate的目标；**
+
+   RPN网络的训练目标也是一个多任务的目标，同时学习分类和回归目标的包围盒；
+
    # YOLO
 
    ![52574378433](C:\Users\ADMINI~1\AppData\Local\Temp\1525743784338.png)
