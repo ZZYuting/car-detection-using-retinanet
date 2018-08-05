@@ -45,7 +45,7 @@ make install
 
 5.编译make
 
-这里有个大坑！（facebook的官方教程路径写错了，路径应该是c2_tp_protobuf/lib而不是c2_tp_protobuf/lib64）
+这里有个坑（facebook的官方教程路径需要修改，路径应该是c2_tp_protobuf/lib而不是c2_tp_protobuf/lib64）
 
 如果不修改路径可能会出现onnx错误
 
