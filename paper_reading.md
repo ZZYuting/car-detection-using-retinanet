@@ -1,18 +1,18 @@
 # RCNN
 
-![52565828176](C:\Users\ADMINI~1\AppData\Local\Temp\1525658281760.png)
+![image](https://github.com/ZZYuting/car-detection-using-retinanet/blob/master/images/3.png)
 
 RCNN使用SS算法提取region proposal，将提取出的2000个左右proposal （每个wrap成固定尺寸），送入CNN提取出特征（由于对每个proposal都使用一遍CNN，所以速度慢），再在特征上加上分类器，判断feature对应的区域是属于具体某类object还是背景。RBG还用了区域对应的feature做了针对boundingbox的回归，用来修正预测的boundingbox的位置。
 
 # Fast R-CNN
 
-![52565829462](C:\Users\ADMINI~1\AppData\Local\Temp\1525658294621.png)
+![image](https://github.com/ZZYuting/car-detection-using-retinanet/blob/master/images/4.png)
 
 事先提取proposal,然后整张图片送入卷积层得到feature map,将proposal的位置映射到feature map从而得到每个proposal 所对应的特征，由于没有对原图的尺寸进行限制，所以又添加了ROI pooling层对feature维数归一化，再用这些特征训练几个linear SVM做判别
 
 # Faster R-CNN
 
-![52569449614](C:\Users\ADMINI~1\AppData\Local\Temp\1525694496141.png)
+![image](https://github.com/ZZYuting/car-detection-using-retinanet/blob/master/images/5.png)
 
 1. Conv layers。作为一种CNN网络目标检测方法，Faster R-CNN首先使用一组基础的conv+relu+pooling层提取image的feature maps。该feature maps被共享用于后续RPN层和全连接层。
 
@@ -28,8 +28,5 @@ RCNN使用SS算法提取region proposal，将提取出的2000个左右proposal �
 
    # YOLO
 
-   ![52574378433](C:\Users\ADMINI~1\AppData\Local\Temp\1525743784338.png)
-
-   ![52574380397](C:\Users\ADMINI~1\AppData\Local\Temp\1525743803976.png)
-
+   ![image](https://github.com/ZZYuting/car-detection-using-retinanet/blob/master/images/6.png)
    ​
